@@ -13,3 +13,19 @@ coverage/
 # Specify Tool
 specs/
 history/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+dist/
+*.egg-info/
+
+# Common
+*.log
+*.tmp
+*.swp
+.vscode/
+.idea/
+Thumbs.db
