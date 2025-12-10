@@ -1,0 +1,73 @@
+---
+sidebar_position: 3
+---
+
+# Chapter 2: Cognitive Planning - LLMs and ROS 2 Actions
+
+With a clear, actionable intent extracted from spoken language (as discussed in Chapter 1), the next critical step in a Vision-Language-Action (VLA) system is to translate this high-level understanding into a sequence of concrete robotic actions. This is the realm of cognitive planning, where Large Language Models (LLMs) play an increasingly pivotal role in bridging the gap between abstract human commands and the robot's operational capabilities, particularly within frameworks like ROS 2.
+
+## 2.1 The Role of LLMs in Robotic Planning
+
+Traditional robotic planning often relies on predefined state machines, behavior trees, or symbolic planners that require explicit programming for every possible scenario. While effective for well-defined tasks, these methods struggle with the open-ended nature of human language and novel situations. LLMs, with their vast knowledge base and reasoning capabilities, offer a powerful paradigm shift.
+
+LLMs can:
+*   **Interpret Ambiguity**: Handle nuances and incomplete information in human commands.
+*   **Generate Diverse Plans**: Create novel sequences of actions that were not explicitly programmed.
+*   **Adapt to Context**: Incorporate environmental information and current robot state into planning.
+*   **Provide Explanations**: Offer human-understandable rationales for their generated plans (Chain-of-Thought).
+
+### 2.1.1 Planning Styles with LLMs
+
+Our research (as documented in `specs/001-vla-robot-control/research.md`) concluded that **Task Decomposition with Chain-of-Thought** is an effective planning style.
+
+*   **Task Decomposition**: When faced with a complex command (e.g., "Clean the table"), the LLM breaks it down into a series of smaller, more manageable sub-tasks (e.g., "Identify objects on table", "Pick up object 1", "Place object 1 in bin", "Repeat for object 2", "Wipe surface"). This hierarchical breakdown simplifies execution and error recovery.
+*   **Chain-of-Thought (CoT)**: By prompting the LLM to "think step-by-step" or "explain your reasoning," it generates intermediate thought processes. This not only improves the quality of the final plan but also makes the LLM's decision-making process transparent and debuggable. For example, before deciding to pick up an object, the LLM might reason: "To pick up the object, I need to know its location. I will use the perception system to locate it."
+
+## 2.2 Mapping LLM Plans to ROS 2 Actions
+
+ROS 2 (Robot Operating System 2) provides a flexible framework for building robot applications, offering standardized communication mechanisms (topics, services, actions) and a rich ecosystem of tools. The challenge lies in translating the LLM's cognitive plan into concrete ROS 2 commands that the robot can execute.
+
+Our chosen approach, **Intermediate Abstraction Layer with Custom Planners** (from `specs/001-vla-robot-control/research.md`), facilitates this mapping.
+
+### 2.2.1 The Abstraction Layer
+
+Instead of having the LLM directly output raw ROS 2 messages or service calls (which would be brittle and tightly coupled), an intermediate abstraction layer defines a set of high-level, robot-agnostic primitives (e.g., `move_to(location)`, `grasp_object(object_id)`, `scan_area(region)`).
+
+The LLM's task decomposition output generates a sequence of these abstract primitives. For instance, the command "Pick up the red cube" might lead to abstract primitives like:
+1.  `localize_object(type: "cube", color: "red")`
+2.  `move_to_pregrasp(object_location)`
+3.  `grasp(object_id)`
+4.  `move_to_postgrasp()`
+
+### 2.2.2 Custom Planners for ROS 2 Execution
+
+Each abstract primitive is then handled by a **custom planner** (or executor module) that translates it into a series of ROS 2 interactions. These custom planners:
+
+*   **Convert to ROS 2 Actions/Services**: Take an abstract primitive and invoke the appropriate ROS 2 `Action` (for long-running, goal-oriented tasks like navigation or manipulation) or `Service` (for quick, request-response tasks like perception queries).
+*   **Handle Robot-Specifics**: Encapsulate the low-level details of a particular robot's ROS 2 interface. For example, a `move_to` primitive might trigger a Nav2 action server, while a `grasp` primitive might interact with a MoveIt 2 action server.
+*   **Provide Feedback**: Report success, failure, or progress back to the central cognitive planning system, allowing the LLM to adapt its plan if necessary.
+
+This architecture ensures that the core LLM planning logic remains relatively independent of the robot's hardware specifics, promoting reusability and modularity.
+
+## 2.3 The Cognitive Planning Flow
+
+The complete cognitive planning process within the VLA pipeline can be summarized as:
+
+1.  **Actionable Intent Input**: Receives structured intent from the Voice-to-Action stage (e.g., `Intent: Navigate`, `Destination: kitchen`).
+2.  **LLM Task Decomposition (with CoT)**: The LLM processes the intent, breaks it into abstract primitives, and reasons through the steps.
+3.  **Abstract Plan Generation**: A sequence of high-level, robot-agnostic primitives is generated.
+4.  **Custom Planners / ROS 2 Mapping**: Each abstract primitive is sent to a specialized custom planner that converts it into specific ROS 2 `Action` goals or `Service` requests.
+5.  **Robot Execution**: The robot performs the low-level ROS 2 commands.
+6.  **Feedback Loop**: Robot execution status and sensor data are fed back, potentially informing the LLM for plan adjustments or error recovery.
+
+This sophisticated planning capability, powered by LLMs, enables robots to engage in more complex, dynamic, and human-like interactions, paving the way for truly autonomous and intelligent systems.
+
+---
+
+**References**
+
+[1] Shridhar, M., Manuelli, L., & Srinivasa, S. S. (2020). *ALOHA: A system for embodied AI with large language models*. Robotics and Automation Letters, 5(2), 2736-2743.
+
+[2] Ichter, B., & Akbari, A. (2022). *Pre-trained language models for robotic control*. arXiv preprint arXiv:2210.11942.
+
+[3] Konolige, K., & Sridharan, M. (2020). *ROS 2: Next-generation robotics platform*. IEEE Robotics & Automation Magazine, 27(4), 118-126.

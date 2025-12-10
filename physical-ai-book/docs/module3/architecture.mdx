@@ -1,0 +1,36 @@
+# Architecture Sketch: Isaac Integration for Humanoid AI
+
+This document provides a high-level overview of how NVIDIA Isaac Sim, Isaac ROS, and Nav2 integrate to form a comprehensive perception, mapping, and navigation stack for humanoid AI systems.
+
+## Conceptual Data Flow
+
+*Note: The primary Conceptual Data Flow diagram has been moved to `introduction.mdx` for better context. This section will elaborate on component roles and key integration points.*
+
+## Component Roles
+
+1.  **NVIDIA Isaac Sim**:
+    *   **Input**: 3D models of robots and environments, simulation scenarios.
+    *   **Output**: Photorealistic sensor data (RGB, depth, lidar, etc.), ground truth data (object poses, segmentation masks).
+    *   **Role**: Provides a high-fidelity virtual environment for development, testing, and synthetic data generation.
+
+2.  **Isaac ROS**:
+    *   **Input**: Sensor data (real or synthetic from Isaac Sim).
+    *   **Output**: Processed perception data (object detections, tracking), VSLAM outputs (robot pose, map features), occupancy maps.
+    *   **Role**: Accelerates perception and VSLAM algorithms using NVIDIA GPUs, converting raw sensor data into actionable information for navigation.
+
+3.  **Nav2**:
+    *   **Input**: Robot pose (from VSLAM), map data (from VSLAM), goal poses, dynamic obstacle information (from perception).
+    *   **Output**: Velocity commands for robot actuators.
+    *   **Role**: Plans safe and efficient paths for the humanoid robot, avoiding obstacles and navigating to desired targets.
+
+4.  **Humanoid AI System**:
+    *   **Input**: Velocity commands (from Nav2).
+    *   **Output**: Motor commands to move the robot.
+    *   **Role**: Executes the navigation commands, interacts with the environment, and performs high-level tasks.
+
+## Key Integration Points
+
+*   **Synthetic Data Transfer**: Isaac Sim's synthetic sensor data directly feeds into Isaac ROS's perception pipelines for training and testing.
+*   **Localization & Mapping**: Isaac ROS performs VSLAM, providing accurate robot localization and environmental maps to Nav2.
+*   **Path Planning**: Nav2 uses the localization, mapping, and real-time perception data (e.g., dynamic obstacle detection from Isaac ROS) to generate navigation plans.
+*   **Actuation**: Nav2's output (velocity commands) is translated into physical movements by the humanoid robot's control system.

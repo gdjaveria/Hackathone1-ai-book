@@ -1,0 +1,25 @@
+# Introduction to The AI-Robot Brain (NVIDIA Isaac)
+
+This module explores the advanced capabilities of NVIDIA Isaac Sim, Isaac ROS, and Nav2 in the context of building intelligent humanoid AI systems. We will delve into photorealistic simulation, synthetic data generation, GPU-accelerated VSLAM, and autonomous navigation, demonstrating how these components integrate to form a powerful perception-to-action pipeline.
+
+## Conceptual Data Flow
+
+The integration can be visualized as a pipeline where information flows from simulation/perception to navigation:
+
+```mermaid
+graph TD
+    A[NVIDIA Isaac Sim (Simulation & Synthetic Data)] --> B[Isaac ROS (Perception & VSLAM)]
+    B --> C[Nav2 (Path Planning & Navigation)]
+    C --> D[Humanoid AI System (Action & Control)]
+    E[Real-World Sensors] --> B
+```
+
+## Module Structure
+
+This module is structured into the following chapters:
+
+1.  **NVIDIA Isaac Sim**: Understanding its role in creating immersive and data-rich simulation environments.
+2.  **Isaac ROS Intelligence Stack**: Focusing on GPU-accelerated perception pipelines, VSLAM, and mapping.
+3.  **Nav2 for Humanoid Path Planning**: Exploring navigation, costmaps, and planner selection for bipedal robots.
+
+Throughout this module, we will emphasize the integration of these technologies, providing practical insights and use cases for aspiring robotics learners.
