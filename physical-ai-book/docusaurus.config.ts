@@ -123,37 +123,12 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-            {
-              label: 'References',
-              to: '/references', // Placeholder link
-            },
-            {
-              label: 'Glossary',
-              to: '/glossary', // Placeholder link
-            },
-          ],
-        },
-        {
           title: 'Community',
           items: [
             {
               label: 'Stack Overflow',
               href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
+            }
           ],
         },
         {
@@ -166,10 +141,6 @@ const config: Config = {
             {
               label: 'GitHub',
               href: 'https://github.com/physical-ai-humanoid-robotics-book',
-            },
-            {
-              label: 'About the Authors',
-              to: '/about-authors',
             },
           ],
         },
