@@ -16,18 +16,15 @@ function HomepageHeader() {
         <Heading as="h1" className="hero__title">
           Physical AI & Humanoid Robotics
         </Heading>
-        <p className="hero__subtitle">From digital minds to physical bodies: a journey into embodied intelligence.</p>
+        <p className="hero__subtitle">From digital minds to physical bodies<br/> 
+          a journey into embodied intelligence</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
+            to="/docs/introduction">
             Start with the Introduction
           </Link>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/module1/introduction">
-            Explore Module 1
-          </Link>
+
         </div>
       </div>
     </header>
