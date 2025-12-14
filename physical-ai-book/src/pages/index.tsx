@@ -14,14 +14,19 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+          Physical AI & Humanoid Robotics
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">From digital minds to physical bodies: a journey into embodied intelligence.</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            welcome to AI book ⏱️
+            Start with the Introduction
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="/docs/module1/introduction">
+            Explore Module 1
           </Link>
         </div>
       </div>
@@ -31,13 +36,31 @@ function HomepageHeader() {
 
 export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
+  const features = [
+    {
+      title: 'Physical AI & Embodied Intelligence',
+      img: '/img/image_1765669349514.webp_image.png',
+      description: 'Explore AI systems that can sense, reason, and act in the real world, bridging the gap between digital intelligence and physical interaction.',
+    },
+    {
+      title: 'Simulation to Reality',
+      img: '/img/image_1765669562119.webp_image.png',
+      description: 'Learn how digital twins and physics-based simulations are used to train and test robots before they are deployed in the real world.',
+    },
+    {
+      title: 'Vision-Language-Action',
+      img: '/img/image_1765669705350.webp_image.png',
+      description: 'Discover how robots can understand voice commands, use large language models for planning, and execute autonomous behaviors.',
+    },
+  ];
+
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />">
       <HomepageHeader />
       <main>
-        <HomepageFeatures />
+        <HomepageFeatures features={features} />
       </main>
     </Layout>
   );

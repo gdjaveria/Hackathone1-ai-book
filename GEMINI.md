@@ -7,6 +7,7 @@ Auto-generated from all feature plans. Last updated: 2025-12-09
 - N/A (this feature primarily involves generating documentation content and code examples, not persistent data storage). (001-digital-twin-module)
 - Python 3.11 (for robotics code examples), Markdown/MDX (for Docusaurus content). + NVIDIA Isaac Sim, Isaac ROS, Nav2, Docusaurus. (001-isaac-robot-brain)
 - N/A (documentation content). (001-isaac-robot-brain)
+- TypeScript ~5.6.2, Node.js >=20.0 + Docusaurus 3.9.2, React 19.0.0 (001-physical-ai-homepage)
 
 - Python 3.11, ROS 2 Humble/Iron + Docusaurus, rclpy (001-ros2-fundamentals)
 
@@ -27,10 +28,10 @@ cd src; pytest; ruff check .
 Python 3.11, ROS 2 Humble/Iron: Follow standard conventions
 
 ## Recent Changes
+- 001-physical-ai-homepage: Added TypeScript ~5.6.2, Node.js >=20.0 + Docusaurus 3.9.2, React 19.0.0
 - 001-isaac-robot-brain: Added Python 3.11 (for robotics code examples), Markdown/MDX (for Docusaurus content). + NVIDIA Isaac Sim, Isaac ROS, Nav2, Docusaurus.
 - 001-digital-twin-module: Added Python 3.11 (for robotics code examples using ROS 2 `rclpy`), TypeScript/JavaScript (for Docusaurus configuration and potential interactive components). + ROS 2 Humble/Iron (`rclpy`), Docusaurus, Gazebo, Unity.
 
-- 001-ros2-fundamentals: Added Python 3.11, ROS 2 Humble/Iron + Docusaurus, rclpy
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
