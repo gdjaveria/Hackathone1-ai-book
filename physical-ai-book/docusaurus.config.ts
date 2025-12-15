@@ -111,7 +111,12 @@ const config: Config = {
           position: 'left',
           label: 'Module 4',
         },
-        
+        {
+          type: 'doc',
+          docId: 'capstone/introduction',
+          position: 'left',
+          label: 'Capstone',
+        },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
@@ -129,6 +134,10 @@ const config: Config = {
             {
               label: 'Stack Overflow',
               href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+            },
+            {
+              label: 'Discord',
+              href: 'https://discordapp.com/invite/docusaurus',
             },
             {
               label: 'X',
