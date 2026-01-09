@@ -1,3 +1,8 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
 # Python
 __pycache__/
 *.py[cod]
@@ -19,21 +24,17 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# Virtual Environment
+# Virtual environments
 venv/
 env/
 ENV/
-.venv/
-.env/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
 # OS
 .DS_Store
@@ -41,8 +42,14 @@ Thumbs.db
 
 # Logs
 *.log
+agent.log
 
-# Environment variables
-.env*
+# Local configuration
+.local/
 
-nul
+# Large files
+*.bin
+*.dat
+*.pdf
+*.zip
+*.tar.gz

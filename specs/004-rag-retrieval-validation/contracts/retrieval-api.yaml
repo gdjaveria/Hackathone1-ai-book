@@ -1,0 +1,60 @@
+# API Contract: RAG Retrieval Validation
+
+# This contract defines the interface for the retrieval validation functionality
+# The implementation will be in retrieve.py as a command-line script
+
+## Function: search_query
+**Description**: Performs top-k similarity search on the Qdrant vector database for a given query
+
+**Input Parameters**:
+- query_text (string, required): The text query to search for similar content
+- top_k (integer, optional, default: 5): Number of top results to return
+- collection_name (string, optional, default: "book_chunks"): Name of the Qdrant collection to search
+
+**Output**:
+- success (boolean): Whether the search was successful
+- results (array[ResultItem]): Array of top-k result items
+- search_time (float): Time taken to perform the search in seconds
+- error (string, optional): Error message if search failed
+
+## Type: ResultItem
+**Description**: A single result item from the similarity search
+
+**Fields**:
+- text_content (string): The text content of the retrieved chunk
+- source_url (string): URL of the source document
+- metadata (object): Additional metadata about the chunk
+- similarity_score (float): Similarity score between 0 and 1
+- chunk_id (string): Unique identifier for this text chunk
+
+## Function: validate_pipeline
+**Description**: Validates the entire RAG retrieval pipeline with multiple test queries
+
+**Input Parameters**:
+- test_queries (array[string], required): Array of test queries to validate
+- top_k (integer, optional, default: 5): Number of top results to return for each query
+
+**Output**:
+- validation_report (ValidationReport): Complete validation report
+
+## Type: ValidationReport
+**Description**: Report of the validation results
+
+**Fields**:
+- validation_timestamp (string): ISO timestamp when validation was performed
+- total_queries (integer): Number of queries tested
+- successful_queries (integer): Number of queries that completed successfully
+- average_response_time (float): Average response time across all queries
+- relevance_accuracy (float): Percentage of relevant results (0-100)
+- details (array[QueryResult]): Individual results for each query
+- errors (array[string]): Any errors encountered during validation
+
+## Type: QueryResult
+**Description**: Result of a single query within validation
+
+**Fields**:
+- query_text (string): The original query text
+- retrieved_chunks (array[ResultItem]): Retrieved chunks for this query
+- search_time (float): Time taken to perform the search
+- query_timestamp (string): ISO timestamp when query was executed
+- total_candidates (integer): Total number of candidates considered
