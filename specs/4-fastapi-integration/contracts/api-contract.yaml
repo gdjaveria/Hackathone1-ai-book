@@ -1,0 +1,213 @@
+openapi: 3.0.0
+info:
+  title: RAG Agent API
+  description: API for interacting with the RAG agent that retrieves book content
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+paths:
+  /:
+    get:
+      summary: Root endpoint
+      description: Verify the API is running
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "RAG Agent API is running"
+                  status:
+                    type: string
+                    example: "healthy"
+  /health:
+    get:
+      summary: Health check
+      description: Check the health status of the API and agent
+      responses:
+        '200':
+          description: Health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, unhealthy]
+                    example: "healthy"
+                  agent:
+                    type: string
+                    example: "available"
+                  message:
+                    type: string
+                    example: "RAG Agent is ready to process queries"
+  /query:
+    post:
+      summary: Process user query
+      description: Send a query to the RAG agent and receive a response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: User's question or query
+                  example: "What is artificial intelligence?"
+                session_id:
+                  type: string
+                  description: Optional session identifier for context
+                  example: "session-123"
+      responses:
+        '200':
+          description: Query processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: Agent's response to the query
+                    example: "Artificial intelligence is a branch of computer science..."
+                  session_id:
+                    type: string
+                    description: Session identifier returned
+                    example: "session-123"
+                  success:
+                    type: boolean
+                    description: Whether the request was successful
+                    example: true
+                  error:
+                    type: string
+                    description: Error message if request failed (optional)
+                    example: null
+        '400':
+          description: Bad request - invalid query format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: ""
+                  session_id:
+                    type: string
+                    example: null
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Invalid query format"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    example: ""
+                  session_id:
+                    type: string
+                    example: null
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Internal server error occurred"
+  /test:
+    get:
+      summary: Test endpoint
+      description: Verify the agent is working correctly
+      responses:
+        '200':
+          description: Test result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  response:
+                    type: string
+                    example: "Sample response from agent..."
+                  message:
+                    type: string
+                    example: "Agent responded successfully"
+        '500':
+          description: Test failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "error"
+                  error:
+                    type: string
+                    example: "Error message"
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: User's question or query
+          example: "What is artificial intelligence?"
+        session_id:
+          type: string
+          description: Optional session identifier for context
+          example: "session-123"
+    QueryResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          description: Agent's response to the query
+          example: "Artificial intelligence is a branch of computer science..."
+        session_id:
+          type: string
+          description: Session identifier returned
+          example: "session-123"
+        success:
+          type: boolean
+          description: Whether the request was successful
+          example: true
+        error:
+          type: string
+          description: Error message if request failed (optional)
+          example: null
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+          example: "healthy"
+        agent:
+          type: string
+          example: "available"
+        message:
+          type: string
+          example: "RAG Agent is ready to process queries"
